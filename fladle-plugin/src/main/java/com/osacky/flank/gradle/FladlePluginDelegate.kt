@@ -12,6 +12,7 @@ import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.kotlin.dsl.create
 import org.gradle.util.GradleVersion
+import java.io.File
 
 class FladlePluginDelegate {
 
@@ -135,6 +136,10 @@ class FladlePluginDelegate {
         }
       }
       if (config.localResultsDir.hasValue) {
+        val localResultDir = "${project.buildDir}/fladle/${config.localResultsDir.get()}"
+        if(File(localResultDir).isDirectory){
+            File(localResultDir).deleteRecursively()
+        }
         this.outputs.dir("${workingDir.path}/${config.localResultsDir.get()}")
         // This task is never upToDate since it relies on network connections and firebase test lab.
         this.outputs.upToDateWhen { false }
@@ -151,6 +156,7 @@ class FladlePluginDelegate {
 
     register("runFlank$name", RunFlankTask::class.java).configure {
       dependsOn(execFlank)
+
     }
   }
 

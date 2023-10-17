@@ -21,8 +21,6 @@ fun importReport(tasks: TaskContainer, flankTask: TaskProvider<FlankExecutionTas
     .getOrElse("true")
     .toBoolean()
   if (enableTestUploads) {
-    ImportJUnitXmlReports.register(tasks, flankTask, JUnitXmlDialect.ANDROID_FIREBASE).configure {
-      reports.setFrom("${project.buildDir}/fladle/${flankTask.get().config.localResultsDir.get()}/JUnitReport.xml")
-    }
+    ImportJUnitXmlReports.register(tasks, flankTask, JUnitXmlDialect.ANDROID_FIREBASE)
   }
 }
